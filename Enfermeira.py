@@ -27,15 +27,6 @@ class Enfermeira:
         else:
             enfermeira_esquerda.objeto.x, enfermeira_esquerda.objeto.y = self.objeto.x, self.objeto.y
             draw_soldados(soldados, enfermeira_esquerda)
-            # i = 0
-            # while soldados[i].objeto.y < self.objeto.y:
-            #     soldados[i].objeto.draw()
-            #     i += 1
-            #     if i == len(soldados):
-            #         break
-            # enfermeira_esquerda.draw()
-            # for j in range(i, len(soldados)):
-            #     soldados[j].draw()
 
         # Move horizontalmente
         if self.objeto.x > 0:
