@@ -1,5 +1,5 @@
 from PPlay.gameimage import *
-from PPlay.sprite import *
+
 
 class Hud:
 
@@ -38,13 +38,15 @@ class Bandagem:
             (self.hud.largura / 5) + (self.largura / 2) + 10,
             self.hud.objeto.y + (self.hud.altura / 2) - self.altura + 40
         )
-        self.qtd = 99
+        self.qtd = 3
 
     def draw(self):
         self.janela.draw_text("x" + str(self.qtd), self.objeto.x + self.largura + 5,
                               self.objeto.y + self.altura - 35, size=35, color=(0, 0, 0))
         self.objeto.draw()
 
+    def set_qnt(self, new_qnt):
+        self.qtd = new_qnt
 
 class Barras:
 
@@ -62,45 +64,6 @@ class Barras:
         self.objeto.draw()
 
 
-class BarraFome:
-
-    def __init__(self, barras):
-        self.objeto = Sprite("images/barra_vermelha.png")
-        self.largura = self.objeto.width
-        self.objeto.width = 0
-        self.x = self.objeto.x
-        self.y = self.objeto.y
-        self.objeto.set_position(barras.objeto.x + 3, barras.objeto.y + 3)
-
-    def draw(self):
-        self.objeto.draw()
-
-    def aumenta_barra(self, tamanho):
-        self.objeto.width += tamanho
-
-    def diminui_barra(self, tamanho):
-        self.objeto.width -= tamanho
-
-
-class BarraSono:
-
-    def __init__(self, barras):
-        self.objeto = Sprite("images/barra_azul.png")
-        self.largura = self.objeto.width
-        self.objeto.width = 0
-        self.x = self.objeto.x
-        self.y = self.objeto.y
-        self.objeto.set_position(barras.objeto.x + 3, barras.objeto.y + (2*self.objeto.height) + 10)
-
-    def draw(self):
-        self.objeto.draw()
-
-    def aumenta_barra(self, tamanho):
-        self.objeto.width += tamanho
-
-    def diminui_barra(self, tamanho):
-        self.objeto.width -= tamanho
-
 class Penicilina:
 
     def __init__(self, hud, janela):
@@ -114,7 +77,10 @@ class Penicilina:
             (self.hud.largura / 40) + (self.largura / 2),
             self.hud.objeto.y + (self.hud.altura / 2) - self.altura + 40
         )
-        self.qtd = 99
+        self.qtd = 3
+
+    def set_qnt(self, new_qnt):
+        self.qtd = new_qnt
 
     def draw(self):
         self.janela.draw_text("x" + str(self.qtd), self.objeto.x + self.largura + 5,
