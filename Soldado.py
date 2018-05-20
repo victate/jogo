@@ -1,5 +1,5 @@
 from PPlay.gameimage import *
-
+from geradores_random import gerar_prontuario
 
 class SoldadoEsquerda:
 
@@ -8,7 +8,10 @@ class SoldadoEsquerda:
         self.objeto = GameImage("images/soldado_esquerda.png")
         self.largura = self.objeto.width
         self.altura = self.objeto.height
-        self.objeto.set_position(10, posicao_y)
+        self.x = 10
+        self.y = posicao_y
+        self.objeto.set_position(self.x, self.y)
+        self.prontuario = gerar_prontuario()
 
     def draw(self):
         self.objeto.draw()
@@ -21,8 +24,11 @@ class SoldadoDireita:
         self.objeto = GameImage("images/soldado_direita.png")
         self.largura = self.objeto.width
         self.altura = self.objeto.height
+        self.x = janela.width - self.largura - 10
+        self.y = posicao_y
         self.objeto.set_position(
-            janela.width - self.largura - 10, posicao_y)
+            self.x, self.y)
+        self.prontuario = gerar_prontuario()
 
     def draw(self):
         self.objeto.draw()
