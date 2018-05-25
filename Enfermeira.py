@@ -1,11 +1,11 @@
 from PPlay.sprite import *
-from PPlay.window import Window
 
 
 class Enfermeira:
 
     def __init__(self, janela):
         self.janela = janela
+        self.teclado = self.janela.get_keyboard()
         self.objeto = Sprite("images/enfermeira.png")
         self.largura = self.objeto.width
         self.altura = self.objeto.height
@@ -16,13 +16,15 @@ class Enfermeira:
         self.vel_y = 0
         self.direcao = 1
 
-    def colisao(self, soldado):
-        teclado = self.janela.get_keyboard()
-        if (self.y - self.altura/2 +1 <= soldado.y and self.y - self.altura/2 >= soldado.y - soldado.largura and teclado.key_pressed("SPACE")):
-            if(soldado.x < self.janela.width/2):
-                if(self.x <= soldado.x + soldado.largura):
+    def colisao(self, soldado,):
+        if self.y - self.altura/2 + 1 <= soldado.y and\
+                self.y - self.altura/2 >= soldado.y - soldado.largura and\
+                self.teclado.key_pressed("SPACE"):
+
+            if soldado.x < self.janela.width/2:
+                if self.x <= soldado.x + soldado.largura:
                     return True
-            elif(self.x >= soldado.x - soldado.largura):
+            elif self.x >= soldado.x - soldado.largura:
                 return True
 
     def mover(self, enfermeira_direita, enfermeira_esquerda, soldados,
@@ -59,7 +61,6 @@ class Enfermeira:
             if not em_intervalo(self.objeto.y + self.altura, espacos_camas)[0]:
                 if self.objeto.x + self.largura <= self.janela.width:
                     move_direita(self, teclado)
-
 
         # Move verticalmente
         if self.objeto.x > soldados_esquerda_x_fim - 10 and self.objeto.x + self.largura < soldados_direita_x + 10:

@@ -46,6 +46,8 @@ bandagem = Bandagem(hud, janela)
 
 # Barras
 barras = Barras(hud)
+barra_fome = BarraFome(barras)
+barra_sono = BarraSono(barras)
 
 inicio_espaco = cirurgia.objeto.y + cirurgia.altura - ((3 * enfermeira.altura) / 4) + enfermeira.altura
 fim_espaco = hud.objeto.y + (2 * enfermeira.altura / 5)
@@ -72,8 +74,10 @@ while True:
     penicilina.draw()
     bandagem.draw()
     barras.draw()
+    barra_fome.draw()
+    barra_sono.draw()
 
-    if(janela.time_elapsed() - time >= ciclo):
+    if janela.time_elapsed() - time >= ciclo:
         abrir_popup = True
 
     if abrir_popup:
@@ -91,7 +95,7 @@ while True:
         time = janela.time_elapsed()
 
     for soldado in soldados:
-        if(enfermeira.colisao(soldado)):
+        if enfermeira.colisao(soldado):
             print(soldado.prontuario)
 
     janela.update()

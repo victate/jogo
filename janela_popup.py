@@ -1,5 +1,6 @@
 from PPlay.gameimage import GameImage
 
+
 class Popup:
 
     def __init__(self, janela):
@@ -33,7 +34,8 @@ class Popup:
 
         return 0
 
-class botao():
+
+class botao:
     def __init__(self, popup, janela, nome_image, mult_y, add_y):
         self.janela = janela
         self.popup = popup
@@ -49,7 +51,7 @@ class botao():
 
     def is_clicked(self, mouse):
         mouse_p = mouse.get_position()
-        if (mouse_p[0] >= self.x and mouse_p[0] <= self.x + self.largura
-                and mouse_p[1] <= self.y + self.altura and mouse_p[1] >= self.y
+        if (self.x <= mouse_p[0] <= self.x + self.largura
+                and self.y + self.altura >= mouse_p[1] >= self.y
                 and mouse.is_button_pressed(1)):
             return True

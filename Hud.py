@@ -1,4 +1,5 @@
 from PPlay.gameimage import *
+from PPlay.sprite import *
 
 
 class Hud:
@@ -48,6 +49,7 @@ class Bandagem:
     def set_qnt(self, new_qnt):
         self.qtd = new_qnt
 
+
 class Barras:
 
     def __init__(self, hud):
@@ -62,6 +64,46 @@ class Barras:
 
     def draw(self):
         self.objeto.draw()
+
+
+class BarraFome:
+
+    def __init__(self, barras):
+        self.objeto = Sprite("images/barra_fome.png")
+        self.largura = self.objeto.width
+        self.objeto.width = self.largura
+        self.x = self.objeto.x
+        self.y = self.objeto.y
+        self.objeto.set_position(barras.objeto.x + 3, barras.objeto.y + 3)
+
+    def draw(self):
+        self.objeto.draw()
+
+    def aumenta_barra(self, tamanho):
+        self.objeto.width += tamanho
+
+    def diminui_barra(self, tamanho):
+        self.objeto.width -= tamanho
+
+
+class BarraSono:
+
+    def __init__(self, barras):
+        self.objeto = Sprite("images/barra_sono.png")
+        self.largura = self.objeto.width
+        self.objeto.width = self.largura
+        self.x = self.objeto.x
+        self.y = self.objeto.y
+        self.objeto.set_position(barras.objeto.x + 3, barras.objeto.y + (2*self.objeto.height) + 10)
+
+    def draw(self):
+        self.objeto.draw()
+
+    def aumenta_barra(self, tamanho):
+        self.objeto.width += tamanho
+
+    def diminui_barra(self, tamanho):
+        self.objeto.width -= tamanho
 
 
 class Penicilina:
