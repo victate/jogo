@@ -1,5 +1,5 @@
 from PPlay.sprite import *
-
+from Soldado import draw_soldados
 
 class Enfermeira:
 
@@ -103,18 +103,6 @@ class EnfermeiraEsquerda:
 
     def draw(self):
         self.objeto.draw()
-
-
-def draw_soldados(lista, enfermeira):
-    i = 0
-    while lista[i].objeto.y < enfermeira.objeto.y:
-        lista[i].draw()
-        i += 1
-        if i == len(lista):
-            break
-    enfermeira.objeto.draw()
-    for j in range(i, len(lista)):
-        lista[j].draw()
 
 
 def move_verticalmente(enfermeira, teclado, inicio, fim):

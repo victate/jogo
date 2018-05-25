@@ -7,15 +7,25 @@ class SoldadoEsquerda:
     def __init__(self, janela, posicao_y):
         self.janela = janela
         self.objeto = GameImage("images/soldado_esquerda.png")
+        self.maca = GameImage("images/maca_esquerda.png")
+
         self.largura = self.objeto.width
         self.altura = self.objeto.height
+
         self.x = 10
         self.y = posicao_y
+
         self.objeto.set_position(self.x, self.y)
+        self.maca.set_position(self.x, self.y)
+
+        self.status = True
         self.prontuario = gerar_prontuario()
 
-    def draw(self):
+    def draw_soldado(self):
         self.objeto.draw()
+
+    def draw_maca(self):
+        self.maca.draw()
 
 
 class SoldadoDireita:
@@ -23,16 +33,43 @@ class SoldadoDireita:
     def __init__(self, janela, posicao_y):
         self.janela = janela
         self.objeto = GameImage("images/soldado_direita.png")
+        self.maca = GameImage("images/maca_direita.png")
+
         self.largura = self.objeto.width
         self.altura = self.objeto.height
+
         self.x = janela.width - self.largura - 10
         self.y = posicao_y
-        self.objeto.set_position(
-            self.x, self.y)
+
+        self.objeto.set_position(self.x, self.y)
+        self.maca.set_position(self.x, self.y)
+
+        self.status = True
         self.prontuario = gerar_prontuario()
 
-    def draw(self):
+    def draw_soldado(self):
         self.objeto.draw()
+
+    def draw_maca(self):
+        self.maca.draw()
+
+
+def draw_soldados(lista, enfermeira):
+    i = 0
+    while lista[i].objeto.y < enfermeira.objeto.y:
+        if lista[i].status:
+            lista[i].draw_soldado()
+        else:
+            lista[i].draw_maca()
+        i += 1
+        if i == len(lista):
+            break
+    enfermeira.objeto.draw()
+    for j in range(i, len(lista)):
+        if lista[j].status:
+            lista[j].draw_soldado()
+        else:
+            lista[j].draw_maca()
 
 
 def espacos_entre_camas(soldados, inicio, fim):
