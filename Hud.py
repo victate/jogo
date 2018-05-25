@@ -15,14 +15,14 @@ class Hud:
             (self.janela.width - self.largura) / 2,
             self.janela.height - self.altura - 10
         )
-        self.status = 99
-        self.status2 = 99
+        self.status_aliados = 99
+        self.status_inimigos = 99
 
     def draw(self):
         self.objeto.draw()
-        self.janela.draw_text(str(self.status), self.objeto.x + self.largura - 120,
+        self.janela.draw_text(str(self.status_aliados), self.objeto.x + self.largura - 120,
                               self.objeto.y + self.altura - 70, size=44, color=(0, 0, 0), bold=True)
-        self.janela.draw_text("/" + str(self.status2), self.objeto.x + self.largura - 73,
+        self.janela.draw_text("/" + str(self.status_inimigos), self.objeto.x + self.largura - 73,
                               self.objeto.y + self.altura - 64, size=35, color=(255, 0, 0), bold=True)
 
 
@@ -41,13 +41,16 @@ class Bandagem:
         )
         self.qtd = 3
 
+    def usar_bandagem(self):
+        self.set_qnt -= 1
+
+    def set_qnt(self, new_qnt):
+        self.qtd = new_qnt
+
     def draw(self):
         self.janela.draw_text("x" + str(self.qtd), self.objeto.x + self.largura + 5,
                               self.objeto.y + self.altura - 35, size=35, color=(0, 0, 0))
         self.objeto.draw()
-
-    def set_qnt(self, new_qnt):
-        self.qtd = new_qnt
 
 
 class Barras:
@@ -151,6 +154,9 @@ class Penicilina:
             self.hud.objeto.y + (self.hud.altura / 2) - self.altura + 40
         )
         self.qtd = 3
+
+    def usar_penicilina(self):
+        self.qtd -= 1
 
     def set_qnt(self, new_qnt):
         self.qtd = new_qnt

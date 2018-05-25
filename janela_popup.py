@@ -12,9 +12,9 @@ class Popup:
             (self.janela.width/2 - self.largura/2),
             self.janela.height/2 - self.altura/2)
 
-        self.bt_repor = botao(self, self.janela, "images/botao_repor_inventario.png", 2, 0)
-        self.bt_dormir = botao(self, self.janela, "images/botao_dormir.png", 3, 1)
-        self.bt_comer = botao(self, self.janela, "images/botao_comer.png", 4, 2)
+        self.bt_repor = Botao(self, self.janela, "images/botao_repor_inventario.png", 2, 0)
+        self.bt_dormir = Botao(self, self.janela, "images/botao_dormir.png", 3, 1)
+        self.bt_comer = Botao(self, self.janela, "images/botao_comer.png", 4, 2)
 
     def draw(self):
         self.objeto.draw()
@@ -33,14 +33,21 @@ class Popup:
             return 1
         return 0
 
-    def dormir(self, barra_sono):
-        barra_sono.aumenta_barra(50)
 
-    def comer(self, barra_fome):
-        barra_fome.aumenta_barra(50)
+def dormir(barra_sono):
+    barra_sono.aumenta_barra(50)
 
 
-class botao:
+def repor_inventario(penicilina, bandagem):
+    penicilina.set_qnt(3)
+    bandagem.set_qnt(3)
+
+
+def comer(barra_fome):
+    barra_fome.aumenta_barra(50)
+
+
+class Botao:
     def __init__(self, popup, janela, nome_image, mult_y, add_y):
         self.janela = janela
         self.popup = popup

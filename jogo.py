@@ -82,22 +82,23 @@ while True:
         acao = popup.bt_clicked()
         if acao > 0:
             if acao == 3:
-                popup.comer(barra_fome)
+                comer(barra_fome)
             if acao == 2:
-                popup.dormir(barra_sono)
+                dormir(barra_sono)
             if acao == 1:
-                penicilina.set_qnt(3)
-                bandagem.set_qnt(3)
+                repor_inventario(penicilina, bandagem)
             abrir_popup = False
-        time = janela.time_elapsed()
+        time = tempo_atual
 
     for soldado in soldados:
         if enfermeira.colisao(soldado):
             print(soldado.prontuario)
 
+    # Diminui a barra de sono e de fome gradualmente
     barra_sono.aumenta_sono(tempo_atual)
     barra_fome.aumenta_fome(tempo_atual)
 
+    # Desenha os objetos
     hud.draw()
     penicilina.draw()
     bandagem.draw()

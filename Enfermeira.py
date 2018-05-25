@@ -15,6 +15,7 @@ class Enfermeira:
         self.vel_x = 0
         self.vel_y = 0
         self.direcao = 1
+        self.status = True
 
     def colisao(self, soldado,):
         if self.y - self.altura/2 + 1 <= soldado.y and\
@@ -69,6 +70,12 @@ class Enfermeira:
             if v:
                 move_verticalmente(self, teclado, x[0], x[1])
 
+    def verifica_status(self, barra_sono, barra_fome, hud):
+        if barra_fome.objeto.width < 0 or\
+            barra_sono.objeto.width < 0 or\
+                (hud.status_inimigos / 2) > hud.status_aliados:
+            self.status = False
+
 
 class EnfermeiraDireita:
 
@@ -92,7 +99,7 @@ class EnfermeiraEsquerda:
         self.altura = self.objeto.height
         self.x = (largura_janela / 2) - (self.largura / 2)
         self.y = (altura_janela / 2) - (self.altura / 2)
-        self.objeto.set_position(self.x,self.y)
+        self.objeto.set_position(self.x, self.y)
 
     def draw(self):
         self.objeto.draw()
@@ -154,4 +161,3 @@ def em_intervalo(x, lista_tuplas):
         if i[0] <= x <= i[1]:
             return True, i
     return False, [0, 0]
-
