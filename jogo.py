@@ -59,7 +59,7 @@ espacos_camas = Soldado.espacos_camas(espacos_entre_camas)
 popup = Popup(janela)
 abrir_popup = False
 
-#ciclo
+# ciclo
 time = 100
 ciclo = 0.5*1000*60
 

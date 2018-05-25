@@ -32,7 +32,6 @@ class Enfermeira:
         soldados_esquerda_x_fim = soldados[0].objeto.x + soldados[0].largura
         soldados_direita_x = soldados[1].objeto.x
 
-
         # Muda de sprite de acordo com a direção
         self.vel_x = 100 * self.janela.delta_time()
         self.vel_y = 80 * self.janela.delta_time()
@@ -113,38 +112,38 @@ def draw_soldados(lista, enfermeira):
 
 def move_verticalmente(enfermeira, teclado, inicio, fim):
     if enfermeira.objeto.y + enfermeira.altura >= inicio:
-        if teclado.key_pressed("up"):
+        if teclado.key_pressed("up") or teclado.key_pressed("w"):
             enfermeira.y -= 1*enfermeira.vel_y
             enfermeira.objeto.move_y(- enfermeira.vel_y)
     if enfermeira.objeto.y + enfermeira.altura <= fim:
-        if teclado.key_pressed("down"):
+        if teclado.key_pressed("down") or teclado.key_pressed("s"):
             enfermeira.y += 1 * enfermeira.vel_y
             enfermeira.objeto.move_y(enfermeira.vel_y)
 
 
 def move_cima(enfermeira, teclado, fim):
     if enfermeira.objeto.y > fim:
-        if teclado.key_pressed("up"):
+        if teclado.key_pressed("up") or teclado.key_pressed("w"):
             enfermeira.y -= 1 * enfermeira.vel_y
             enfermeira.objeto.move_y(- enfermeira.vel_y)
 
 
 def move_baixo(enfermeira, teclado, fim):
     if enfermeira.objeto.y < fim:
-        if teclado.key_pressed("down"):
+        if teclado.key_pressed("down") or teclado.key_pressed("s"):
             enfermeira.y += 1 * enfermeira.vel_y
             enfermeira.objeto.move_y(enfermeira.vel_y)
 
 
 def move_direita(enfermeira, teclado):
-    if teclado.key_pressed("right"):
+    if teclado.key_pressed("right") or teclado.key_pressed("d"):
         enfermeira.x += 1 * enfermeira.vel_x
         enfermeira.objeto.move_x(enfermeira.vel_x)
         enfermeira.direcao = 1
 
 
 def move_esquerda(enfermeira, teclado):
-    if teclado.key_pressed("left"):
+    if teclado.key_pressed("left") or teclado.key_pressed("a"):
         enfermeira.x -= 1 * enfermeira.vel_x
         enfermeira.objeto.move_x(- enfermeira.vel_x)
         enfermeira.direcao = -1

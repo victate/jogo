@@ -1,6 +1,7 @@
 from PPlay.gameimage import *
 from geradores_random import gerar_prontuario
 
+
 class SoldadoEsquerda:
 
     def __init__(self, janela, posicao_y):
