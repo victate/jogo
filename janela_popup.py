@@ -31,8 +31,13 @@ class Popup:
             return 2
         if self.bt_repor.is_clicked(mouse):
             return 1
-
         return 0
+
+    def dormir(self, barra_sono):
+        barra_sono.aumenta_barra(50)
+
+    def comer(self, barra_fome):
+        barra_fome.aumenta_barra(50)
 
 
 class botao:

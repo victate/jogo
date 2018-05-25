@@ -71,7 +71,11 @@ class BarraFome:
     def __init__(self, barras):
         self.objeto = Sprite("images/barra_fome.png")
         self.largura = self.objeto.width
-        self.objeto.width = self.largura
+        self.objeto.width = 100
+
+        self.intervalo_fome = 5000
+        self.t_fome = 0
+
         self.x = self.objeto.x
         self.y = self.objeto.y
         self.objeto.set_position(barras.objeto.x + 3, barras.objeto.y + 3)
@@ -79,19 +83,35 @@ class BarraFome:
     def draw(self):
         self.objeto.draw()
 
+    def aumenta_fome(self, tempo_atual):
+        if tempo_atual - self.t_fome >= self.intervalo_fome:
+            self.diminui_barra(5)
+            self.t_fome = tempo_atual
+
     def aumenta_barra(self, tamanho):
-        self.objeto.width += tamanho
+        if self.objeto.width < self.largura:
+            self.objeto.width += tamanho
+        else:
+            self.objeto.width = self.largura
 
     def diminui_barra(self, tamanho):
-        self.objeto.width -= tamanho
+        if self.objeto.width > 0:
+            self.objeto.width -= tamanho
+        else:
+            self.objeto.width = 0
 
 
 class BarraSono:
 
     def __init__(self, barras):
         self.objeto = Sprite("images/barra_sono.png")
+
         self.largura = self.objeto.width
-        self.objeto.width = self.largura
+        self.objeto.width = 100
+
+        self.intervalo_sono = 11000
+        self.t_sono = 0
+
         self.x = self.objeto.x
         self.y = self.objeto.y
         self.objeto.set_position(barras.objeto.x + 3, barras.objeto.y + (2*self.objeto.height) + 10)
@@ -99,11 +119,22 @@ class BarraSono:
     def draw(self):
         self.objeto.draw()
 
+    def aumenta_sono(self, tempo_atual):
+        if tempo_atual - self.t_sono >= self.intervalo_sono:
+            self.diminui_barra(7)
+            self.t_sono = tempo_atual
+
     def aumenta_barra(self, tamanho):
-        self.objeto.width += tamanho
+        if self.objeto.width < self.largura:
+            self.objeto.width += tamanho
+        else:
+            self.objeto.width = self.largura
 
     def diminui_barra(self, tamanho):
-        self.objeto.width -= tamanho
+        if self.objeto.width > 0:
+            self.objeto.width -= tamanho
+        else:
+            self.objeto.width = 0
 
 
 class Penicilina:

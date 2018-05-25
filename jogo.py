@@ -63,31 +63,28 @@ abrir_popup = False
 time = 100
 ciclo = 0.5*1000*60
 
-while True:
 
+while True:
     fundo.draw()
     cirurgia.draw()
+
+    tempo_atual = janela.time_elapsed()
+
     if not abrir_popup:
         enfermeira.mover(enfermeira_direita, enfermeira_esquerda, soldados,
                          teclado, inicio_espaco, fim_espaco, espacos_entre_camas, espacos_camas)
-    hud.draw()
-    penicilina.draw()
-    bandagem.draw()
-    barras.draw()
-    barra_fome.draw()
-    barra_sono.draw()
 
-    if janela.time_elapsed() - time >= ciclo:
+    if tempo_atual - time >= ciclo:
         abrir_popup = True
 
     if abrir_popup:
         popup.draw()
         acao = popup.bt_clicked()
         if acao > 0:
-            #if acao==3:
-                # repoe barra comida
-            #if acao==2:
-                # repoe sono
+            if acao == 3:
+                popup.comer(barra_fome)
+            if acao == 2:
+                popup.dormir(barra_sono)
             if acao == 1:
                 penicilina.set_qnt(3)
                 bandagem.set_qnt(3)
@@ -97,5 +94,15 @@ while True:
     for soldado in soldados:
         if enfermeira.colisao(soldado):
             print(soldado.prontuario)
+
+    barra_sono.aumenta_sono(tempo_atual)
+    barra_fome.aumenta_fome(tempo_atual)
+
+    hud.draw()
+    penicilina.draw()
+    bandagem.draw()
+    barras.draw()
+    barra_fome.draw()
+    barra_sono.draw()
 
     janela.update()
