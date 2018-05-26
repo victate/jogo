@@ -1,9 +1,8 @@
-from PPlay.window import *
-
 import Enfermeira
 import Soldado
 from Cirurgia import *
 from Hud import *
+from PPlay.window import *
 from janela_popup import *
 
 fundo_largura = 708
@@ -56,25 +55,26 @@ espacos_entre_camas = Soldado.espacos_entre_camas(soldados, inicio_espaco, fim_e
 espacos_camas = Soldado.espacos_camas(espacos_entre_camas)
 
 # Popup
-popup = Popup(janela)
 abrir_popup = False
+popup = Popup(janela)
 
 # ciclo
 time = 100
-ciclo = 0.5*1000*60
+ciclo = 0.1*1000*60
 
 
 while True:
     fundo.draw()
     cirurgia.draw()
-
     tempo_atual = janela.time_elapsed()
+
 
     if not abrir_popup:
         enfermeira.mover(enfermeira_direita, enfermeira_esquerda, soldados,
                          teclado, inicio_espaco, fim_espaco, espacos_entre_camas, espacos_camas)
 
     if tempo_atual - time >= ciclo:
+        popup.set_popup(1, None)
         abrir_popup = True
 
     if abrir_popup:
@@ -82,17 +82,30 @@ while True:
         acao = popup.bt_clicked()
         if acao > 0:
             if acao == 3:
-                comer(barra_fome)
-            if acao == 2:
-                dormir(barra_sono)
-            if acao == 1:
-                repor_inventario(penicilina, bandagem)
+                Barras.comer(barra_fome)
+            elif acao == 2:
+                Barras.dormir(barra_sono)
+            elif acao == 1:
+                Barras.repor_inventario(penicilina, bandagem)
+            elif acao == 4:
+                if soldado_ativo.prontuario == 'bandagem':
+                    #soldado_ativo.prontuario está salvo
+                    #numero de soldados em campo aumenta
+                    bandagem.usar_bandagem()
+
+                elif soldado_ativo.prontuario == 'penicilina':
+                    # soldado_ativo.prontuario está salvo
+                    # numero de soldados em campo aumenta
+                    penicilina.usar_penicilina()
+
             abrir_popup = False
         time = tempo_atual
 
     for soldado in soldados:
         if enfermeira.colisao(soldado):
-            print(soldado.prontuario)
+            soldado_ativo = soldado
+            popup.set_popup(2, soldado_ativo)
+            abrir_popup = True
 
     # Diminui a barra de sono e de fome gradualmente
     barra_sono.aumenta_sono(tempo_atual)
