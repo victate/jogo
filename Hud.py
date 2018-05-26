@@ -42,7 +42,8 @@ class Bandagem:
         self.qtd = 3
 
     def usar_bandagem(self):
-        self.set_qnt -= 1
+        if(self.qtd > 0):
+            self.set_qnt(self.qtd-1)
 
     def set_qnt(self, new_qnt):
         self.qtd = new_qnt
@@ -67,6 +68,16 @@ class Barras:
 
     def draw(self):
         self.objeto.draw()
+
+    def dormir(barra_sono):
+        barra_sono.aumenta_barra(50)
+
+    def repor_inventario(penicilina, bandagem):
+        penicilina.set_qnt(3)
+        bandagem.set_qnt(3)
+
+    def comer(barra_fome):
+        barra_fome.aumenta_barra(50)
 
 
 class BarraFome:
@@ -156,7 +167,8 @@ class Penicilina:
         self.qtd = 3
 
     def usar_penicilina(self):
-        self.qtd -= 1
+        if(self.qtd > 0):
+            self.set_qnt(self.qtd-1)
 
     def set_qnt(self, new_qnt):
         self.qtd = new_qnt
