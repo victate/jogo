@@ -14,7 +14,7 @@ class Popup:
     def set_popup(self, tipo, soldado):
 
         self.tipo = tipo
-        if (self.tipo == 1):
+        if self.tipo == 1:
             self.imagens = Popup_ImagesSet.popup_inventario(self)
             self.texto = None
             self.objeto = GameImage(self.imagens['fundo'])
@@ -29,7 +29,7 @@ class Popup:
             self.bt_ok = None
             self.bt_cancelar = None
 
-        if (self.tipo == 2):
+        if self.tipo == 2:
             self.imagens = Popup_ImagesSet.popup_prontuario(self)
             self.texto = str(soldado.prontuario)
             self.objeto = GameImage(self.imagens['fundo'])
@@ -46,20 +46,19 @@ class Popup:
 
     def draw(self):
         self.objeto.draw()
-        self.janela.draw_text(self.texto, self.janela.width / 2 - self.largura / 2 + self.texto.__sizeof__()*2,
+        self.janela.draw_text(self.texto, self.janela.width / 2 - self.largura / 2 + self.texto.__sizeof__()*3,
                               self.janela.height / 2 - self.altura / 4 + 40, size=20, color=(0, 0, 0), bold=True)
-        if(self.tipo==1):
+        if self.tipo==1:
             self.bt_repor.draw()
             self.bt_dormir.draw()
             self.bt_comer.draw()
-        elif(self.tipo==2):
+        elif self.tipo==2:
             self.bt_cancelar.draw()
             self.bt_ok.draw()
 
-
     def bt_clicked(self):
         mouse = self.janela.get_mouse()
-        if (self.tipo == 1):
+        if self.tipo == 1:
             if self.bt_comer.is_clicked(mouse):
                 return 3
             if self.bt_dormir.is_clicked(mouse):
@@ -67,13 +66,12 @@ class Popup:
             if self.bt_repor.is_clicked(mouse):
                 return 1
 
-        elif (self.tipo == 2):
+        elif self.tipo == 2:
             if self.bt_cancelar.is_clicked(mouse):
                 return 0
             if self.bt_ok.is_clicked(mouse):
                 return 4
         return 0
-
 
 
 class Botao:

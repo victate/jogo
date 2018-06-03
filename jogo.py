@@ -74,6 +74,9 @@ while True:
                          teclado, inicio_espaco, fim_espaco, espacos_entre_camas, espacos_camas)
 
     if tempo_atual - time >= ciclo:
+        for soldado in soldados:
+            if not soldado.status:
+                soldado.status = True
         popup.set_popup(1, None)
         abrir_popup = True
 
@@ -97,6 +100,9 @@ while True:
                     # soldado_ativo.prontuario está salvo
                     # numero de soldados em campo aumenta
                     penicilina.usar_penicilina()
+
+                elif soldado_ativo.prontuario == 'cirurgia':
+                    soldado_ativo.status = False
 
             abrir_popup = False
         time = tempo_atual

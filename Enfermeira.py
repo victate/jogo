@@ -17,12 +17,11 @@ class Enfermeira:
         self.direcao = 1
         self.status = True
 
-    def colisao(self, soldado,):
-        if self.y - self.altura/2 + 1 <= soldado.y and\
-                self.y - self.altura/2 >= soldado.y - soldado.largura and\
+    def colisao(self, soldado):
+        if soldado.y > self.y > soldado.y - (soldado.largura/2) and \
                 self.teclado.key_pressed("SPACE"):
 
-            if soldado.x < self.janela.width/2:
+            if soldado.x < self.janela.width / 2:
                 if self.x <= soldado.x + soldado.largura:
                     return True
             elif self.x >= soldado.x - soldado.largura:
