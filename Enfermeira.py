@@ -1,33 +1,46 @@
 from PPlay.sprite import *
-
+from Soldado import draw_soldados
+from set_up import Personagens
 
 class Enfermeira:
 
     def __init__(self, janela):
         self.janela = janela
-        self.teclado = janela.get_keyboard()
-        self.objeto = Sprite("images/enfermeira.png")
+        self.teclado = self.janela.get_keyboard()
+        self.objeto = Sprite(Personagens.enfermeira)
         self.largura = self.objeto.width
         self.altura = self.objeto.height
-        self.objeto.set_position(
-            (janela.width / 2) - (self.largura / 2),
-            (janela.height / 2) - (self.altura / 2)
-        )
+        self.x = (janela.width / 2) - (self.largura / 2)
+        self.y = (janela.height / 2) - (self.altura / 2)
+        self.objeto.set_position(self.x, self.y)
         self.vel_x = 0
         self.vel_y = 0
         self.direcao = 1
+        self.status = True
+
+    def colisao(self, soldado,):
+        if self.y - self.altura/2 + 1 <= soldado.y and\
+                self.y - self.altura/2 >= soldado.y - soldado.largura and\
+                self.teclado.key_pressed("SPACE"):
+
+            if soldado.x < self.janela.width/2:
+                if self.x <= soldado.x + soldado.largura:
+                    return True
+            elif self.x >= soldado.x - soldado.largura:
+                return True
 
     def mover(self, enfermeira_direita, enfermeira_esquerda, soldados,
-              inicio, fim, espacos_entre_camas, espacos_camas):
+              teclado, inicio, fim, espacos_entre_camas, espacos_camas):
         soldados_esquerda_x_fim = soldados[0].objeto.x + soldados[0].largura
         soldados_direita_x = soldados[1].objeto.x
 
         # Muda de sprite de acordo com a direção
-        self.vel_x = 200 * self.janela.delta_time()
-        self.vel_y = 100 * self.janela.delta_time()
+        self.vel_x = 100 * self.janela.delta_time()
+        self.vel_y = 80 * self.janela.delta_time()
         if self.direcao > 0:
             enfermeira_direita.objeto.x, enfermeira_direita.objeto.y = self.objeto.x, self.objeto.y
             draw_soldados(soldados, enfermeira_direita)
+
         else:
             enfermeira_esquerda.objeto.x, enfermeira_esquerda.objeto.y = self.objeto.x, self.objeto.y
             draw_soldados(soldados, enfermeira_esquerda)
@@ -35,43 +48,45 @@ class Enfermeira:
         # Move horizontalmente
 
         # Lado esquerdo
-        if self.objeto.x < soldados_esquerda_x_fim - 10:
-            x, (a, b) = em_intervalo(self.objeto.y + self.altura, espacos_camas)
-            if self.objeto.x > 0:
-                if not x:
-                    move_esquerda(self, self.teclado)
+        if self.objeto.x > soldados_esquerda_x_fim - 10:
+            move_esquerda(self, teclado)
         else:
-            move_esquerda(self, self.teclado)
+            if not em_intervalo(self.objeto.y + self.altura, espacos_camas)[0]:
+                if self.objeto.x > 0:
+                    move_esquerda(self, teclado)
 
         # Lado direito
-        if self.objeto.x + self.largura > soldados_direita_x + 10:
-            x, (a, b) = em_intervalo(self.objeto.y + self.altura, espacos_camas)
-            if self.objeto.x + self.largura < self.janela.width:
-                if not x:
-                    move_direita(self, self.teclado)
+        if self.objeto.x + self.largura < soldados_direita_x + 10:
+            move_direita(self, teclado)
         else:
-            move_direita(self, self.teclado)
+            if not em_intervalo(self.objeto.y + self.altura, espacos_camas)[0]:
+                if self.objeto.x + self.largura <= self.janela.width:
+                    move_direita(self, teclado)
 
         # Move verticalmente
-        if self.objeto.x > soldados_esquerda_x_fim - 10 and \
-                self.objeto.x + self.largura < soldados_direita_x + 10:
-            move_verticalmente(self, self.teclado, inicio, fim)
+        if self.objeto.x > soldados_esquerda_x_fim - 10 and self.objeto.x + self.largura < soldados_direita_x + 10:
+            move_verticalmente(self, teclado, inicio, fim)
         else:
             (v, x) = em_intervalo(self.objeto.y + self.altura, espacos_entre_camas)
             if v:
-                move_verticalmente(self, self.teclado, x[0], x[1])
+                move_verticalmente(self, teclado, x[0], x[1])
+
+    def verifica_status(self, barra_sono, barra_fome, hud):
+        if barra_fome.objeto.width < 0 or\
+            barra_sono.objeto.width < 0 or\
+                (hud.status_inimigos / 2) > hud.status_aliados:
+            self.status = False
 
 
 class EnfermeiraDireita:
 
     def __init__(self, largura_janela, altura_janela):
-        self.objeto = Sprite("images/enfermeira.png")
+        self.objeto = Sprite(Personagens.enfermeira)
         self.largura = self.objeto.width
         self.altura = self.objeto.height
-        self.objeto.set_position(
-            (largura_janela / 2) - (self.largura / 2),
-            (altura_janela / 2) - (self.altura / 2)
-        )
+        self.x = (largura_janela / 2) - (self.largura / 2)
+        self.y = (altura_janela / 2) - (self.altura / 2)
+        self.objeto.set_position(self.x, self.y)
 
     def draw(self):
         self.objeto.draw()
@@ -80,62 +95,52 @@ class EnfermeiraDireita:
 class EnfermeiraEsquerda:
 
     def __init__(self, largura_janela, altura_janela):
-        self.objeto = Sprite("images/enfermeira_esquerda.png")
+        self.objeto = Sprite(Personagens.enfermeira_esq)
         self.largura = self.objeto.width
         self.altura = self.objeto.height
-        self.objeto.set_position(
-            (largura_janela / 2) - (self.largura / 2),
-            (altura_janela / 2) - (self.altura / 2)
-        )
+        self.x = (largura_janela / 2) - (self.largura / 2)
+        self.y = (altura_janela / 2) - (self.altura / 2)
+        self.objeto.set_position(self.x, self.y)
 
     def draw(self):
         self.objeto.draw()
 
 
-def draw_soldados(lista, enfermeira):
-    i = 0
-    # Desenha os Soldados
-    while lista[i].objeto.y < enfermeira.objeto.y:
-        lista[i].draw()
-        i += 1
-        if i == len(lista):
-            break
-    # Desenha a Enfermeira
-    enfermeira.objeto.draw()
-    # Desenha o resto dos Soldados
-    for j in range(i, len(lista)):
-        lista[j].draw()
-
-
 def move_verticalmente(enfermeira, teclado, inicio, fim):
-    if enfermeira.objeto.y + enfermeira.altura > inicio:
-        if teclado.key_pressed("up"):
+    if enfermeira.objeto.y + enfermeira.altura >= inicio:
+        if teclado.key_pressed("up") or teclado.key_pressed("w"):
+            enfermeira.y -= 1*enfermeira.vel_y
             enfermeira.objeto.move_y(- enfermeira.vel_y)
-    if enfermeira.objeto.y + enfermeira.altura < fim:
-        if teclado.key_pressed("down"):
+    if enfermeira.objeto.y + enfermeira.altura <= fim:
+        if teclado.key_pressed("down") or teclado.key_pressed("s"):
+            enfermeira.y += 1 * enfermeira.vel_y
             enfermeira.objeto.move_y(enfermeira.vel_y)
 
 
 def move_cima(enfermeira, teclado, fim):
     if enfermeira.objeto.y > fim:
-        if teclado.key_pressed("up"):
+        if teclado.key_pressed("up") or teclado.key_pressed("w"):
+            enfermeira.y -= 1 * enfermeira.vel_y
             enfermeira.objeto.move_y(- enfermeira.vel_y)
 
 
 def move_baixo(enfermeira, teclado, fim):
     if enfermeira.objeto.y < fim:
-        if teclado.key_pressed("down"):
+        if teclado.key_pressed("down") or teclado.key_pressed("s"):
+            enfermeira.y += 1 * enfermeira.vel_y
             enfermeira.objeto.move_y(enfermeira.vel_y)
 
 
 def move_direita(enfermeira, teclado):
-    if teclado.key_pressed("right"):
+    if teclado.key_pressed("right") or teclado.key_pressed("d"):
+        enfermeira.x += 1 * enfermeira.vel_x
         enfermeira.objeto.move_x(enfermeira.vel_x)
         enfermeira.direcao = 1
 
 
 def move_esquerda(enfermeira, teclado):
-    if teclado.key_pressed("left"):
+    if teclado.key_pressed("left") or teclado.key_pressed("a"):
+        enfermeira.x -= 1 * enfermeira.vel_x
         enfermeira.objeto.move_x(- enfermeira.vel_x)
         enfermeira.direcao = -1
 
