@@ -55,19 +55,22 @@ espacos_entre_camas = Soldado.espacos_entre_camas(soldados, inicio_espaco, fim_e
 espacos_camas = Soldado.espacos_camas(espacos_entre_camas)
 
 # Popup
+
 popup_start = False
 popup_ciclo = False
 popup_inventario = False
+
 popup = Popup(janela)
 
 # ciclo
 time = 100
-ciclo = 0.5*1000*60
 
+ciclo = 0.2*1000*60
 
 while True:
     fundo.draw()
     cirurgia.draw()
+
     popup.set_popup(0, None)
     popup.draw()
 

@@ -1,3 +1,4 @@
+
 from PPlay.gameimage import *
 from geradores_random import gerar_prontuario
 from set_up import Personagens, Objetos

@@ -17,7 +17,7 @@ class Cirurgia:
 
     def draw(self):
         self.objeto.draw()
-
+        
     def receber_paciente(self, soldado):
         self.ocupado = True
 
